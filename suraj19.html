@@ -1,145 +1,270 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
- 
-    <link rel="stylesheet" type="text/css" href="suraj19.css">
- <link href="https://fonts.googleapis.com/css?family=Raleway:200,300,400,500" rel="stylesheet">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
-  <link rel="stylesheet" type="text/css" href="../CSS/index.css" />
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Portfolio Page | NAIR SURAJ</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Be My Valentine? 💝</title>
+  <style>
+    :root {
+      --bg: #fff5f8;
+      --card: #ffffff;
+      --primary: #e91e63;
+      --primary-dark: #ad1457;
+      --accent: #ff7aa2;
+      --text: #2d2a2e;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(1200px 800px at 10% 0%, #ffe3ec 0%, transparent 60%),
+        radial-gradient(1000px 700px at 100% 100%, #ffeaf1 0%, transparent 55%),
+        var(--bg);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--text);
+    }
+
+    .card {
+      width: min(92vw, 720px);
+      background: var(--card);
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(233, 30, 99, 0.15);
+      padding: 28px 24px 32px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hearts-bg {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.15;
+      background:
+        radial-gradient(circle at 20% 20%, #e91e63 2px, transparent 3px),
+        radial-gradient(circle at 80% 30%, #e91e63 2px, transparent 3px),
+        radial-gradient(circle at 60% 80%, #e91e63 2px, transparent 3px);
+      background-size: 50px 50px;
+      animation: float 12s linear infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+      100% { transform: translateY(0); }
+    }
+
+    h1 {
+      margin: 8px 0 10px;
+      font-size: clamp(26px, 4.5vw, 36px);
+      color: var(--primary);
+    }
+
+    p.tagline {
+      margin: 0 0 18px;
+      font-size: clamp(14px, 2.8vw, 18px);
+      color: #5a555a;
+    }
+
+    .question {
+      font-size: clamp(20px, 3.8vw, 28px);
+      margin: 18px auto 26px;
+      font-weight: 700;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 14px 22px;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 180ms ease, background-color 200ms ease, box-shadow 200ms ease;
+      will-change: transform;
+    }
+
+    #yesBtn {
+      background: linear-gradient(180deg, var(--primary), var(--primary-dark));
+      color: #fff;
+      box-shadow: 0 8px 18px rgba(233, 30, 99, 0.35);
+    }
+    #yesBtn:hover { transform: translateY(-2px) scale(1.04); }
+    #yesBtn:active { transform: translateY(0) scale(0.98); }
+
+    #noBtn {
+      background: #f2f2f6;
+      color: #333;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+    }
+    #noBtn:hover { transform: translateY(-1px); }
+    #noBtn:active { transform: translateY(0); }
+
+    .hint {
+      margin-top: 14px;
+      font-size: 13px;
+      color: #7a747a;
+    }
+
+    .hidden { display: none !important; }
+
+    .result {
+      margin-top: 22px;
+      font-size: clamp(18px, 3.2vw, 24px);
+      color: var(--primary-dark);
+      font-weight: 700;
+    }
+
+    /* Confetti canvas overlays the card */
+    canvas#confetti {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+  </style>
 </head>
 <body>
-  <div id="div1">linear</div><br>
-  <nav id="navbar">
-    <div class="name">SURAJ NAIR</div>
-    <div class="nav">
-      <div class="nav-links"><a href="#home">Home</a> </div>
-      <div class="nav-links"><a href="#about_me">About me</a></div>
-      <div class="nav-links"><a href="#projects">Projects</a></div>
-      <div class="nav-links"><a href="#contact">Contact</a></div>
+  <div class="card" role="dialog" aria-modal="true" aria-labelledby="title" aria-describedby="question">
+    <div class="hearts-bg" aria-hidden="true"></div>
+    <canvas id="confetti" class="hidden"></canvas>
+
+    <h1 id="title">Hey ❤️</h1>
+    <p class="tagline">I’ve got a tiny question with a huge amount of love in it…</p>
+
+    <div id="question" class="question">Will you be my Valentine?</div>
+
+    <div class="btn-row">
+      <button id="yesBtn" aria-label="Yes, be your Valentine">Yes</button>
+      <button id="noBtn" aria-label="No">No</button>
     </div>
-  </nav>
-  <section id="welcome-section" id="home">
-    <p class="hi">
-      Hi, my name is SURAJ NAIR and 
-      <h1>I AM AWESOME</h1>
-    </p>
-  </br>
-    <img src="DSC07211.jpg" width=25% height=50% >
-    <a href="#about_me"><i class="fas fa-chevron-down"></i></a>
-  </section>
-  <section id="about_me">
-    <h1 class="aboutme">About me</h1>
-    <p class="description">
-      I'm a student at SRM INSTITUTE OF SCIENCE AND TECHNOLOGY in the field of Computer Science.
-      I am computer enthusiast and I love to code, I also like facing new challenges, exploring new technologies and solving complex problems. 
-      <h3> BUT WAIT FOR IT ! I AM NOT A GEEK.</h3>
-        <h2> WATCH THIS</h2><br><br>
-        <video width="420" height="340" align= "right">
-  <source src="suraj162.mp4" type="video/mp4" align="center">
-  <source src="suraj162.ogg" type="video/ogg">
-Your browser does not support the video tag.
-Right click on the video to play and pause the video, Because I need to show my javascript skills to use play and pause buttons :P
-</video>
-<div>
-    or click <a href="https://youtu.be/UZqgOcnQmGg"> HERE</a> To watch the video.
+
+    <div id="hint" class="hint">(You can totally say yes… just saying 😄)</div>
+    <div id="result" class="result hidden">Yay! You just made my Valentine’s Day perfect! 💖</div>
   </div>
-<q class="description">   
- <div align="justify"> 
-     <p align="center">  I am a silver medalist in GUJARAT STATE GYMNASTICS FEDERATION GAMES AND Represented GUJARAT State In NATIONAL GAMES. The above 
-       video is a part of the Techfest that was held in our college.</p> </div> 
-           </br>
- </br>
-           Here are the languages that I'm familiar with:
-    </p>
-    
 
+  <script>
+    const yesBtn = document.getElementById('yesBtn');
+    const noBtn  = document.getElementById('noBtn');
+    const result = document.getElementById('result');
+    const hint   = document.getElementById('hint');
+    const canvas = document.getElementById('confetti');
 
-    <div class="languages">
-    <i class="devicon-java-plain"></i>
-      <i class="devicon-c-plain"></i>
-      <i class="devicon-csharp-plain"></i>
-      <i class="devicon-html5-plain"></i>
-      <i class="devicon-css3-plain"></i>
-      <i class="devicon-javascript-lain"></i>
-      <i class="devicon-php-plain"></i>
-      <i class="devicon-mysql-plain-wordmark"></i>
-      <i class="devicon-git-plain"></i>
-      
-      
-    </div>
+    let growthCount = 0;
+    const MAX_GROWTH_STEPS = 6;       // how many times clicking No enlarges Yes
+    const GROWTH_PER_STEP = 0.15;     // 15% bigger each time
 
-  </section>
-  <section id="projects">
-    <h1 class="aboutme">Projects</h1>
-    <div class="center">
-      <div class="container">
-        <div class="project-tile">
-          <img src="viavoice.jpg" alt="Project 1 image">
-          <div class="overlay">
-            <p class="project_desc"><a></a>VOICE RECOGNITION SYSTEM</p>
-            <form action="http://www.ijariie.com/FormDetails.aspx?MenuScriptId=96689">
-              <input type="submit" value="Take a look" target="_blank"/>
-            </form>
-          </div>
-        </div>
+    function updateYesSize() {
+      const scale = 1 + Math.min(growthCount, MAX_GROWTH_STEPS) * GROWTH_PER_STEP;
+      yesBtn.style.transform = `scale(${scale})`;
+    }
 
-        <div class="project-tile">
-          <img src="reccom.png" alt="Project 2 image">
-          <div class="overlay">
-            <p class="project_desc"> RECOMMENADATION ENGINE </p>
-            <form action="http://ijesc.org/articles-in-press.php?msg=1&page=article">
-              <input type="submit" value="Take a look" target="_blank"/>
-            </form>
-          </div>
-        </div>
+    noBtn.addEventListener('click', () => {
+      // Enlarge Yes button progressively
+      growthCount++;
+      updateYesSize();
 
-        <!--<div class="project-tile">
-          <img
-          src="https://res.cloudinary.com/dibvnvdtt/image/upload/v1531678791/Project3.jpg" alt="Project 3 image">
-          <div class="overlay">
-            <p class="project_desc">A product landing page for a Web Hosting company</p>
-            <form action="https://codepen.io/ghanmi-khir/full/oMjoXW/">
-              <input type="submit" value="Take a look" target="_blank"/>
-            </form>
-          </div>
-        </div>
+      // Change No button label
+      noBtn.textContent = 'Please say Yes!';
 
-        <div class="project-tile">
-          <img
-          src="https://res.cloudinary.com/dibvnvdtt/image/upload/v1531678791/Project4.jpg" alt="Project 4 image">
-          <div class="overlay">
-            <p class="project_desc">A technical documentation page for the programing language Python</p>
-            <form action="https://codepen.io/ghanmi-khir/full/NBGQKW/">
-              <input type="submit" value="Take a look" target="_blank"/>
-            </form>
-          </div>
-        </div>-->
-      </div>
-    </div>
-  </section>
-  <section id="contact">
-    <h1>Contact</h1>
-    <form action="#" name="contact" class="contact_form">
-      <input type="text" name="name" placeholder="Name" class="input_name">
-      <input type="email" name="email" placeholder="Enter your email" class="input_email">
-      <textarea name="comment" rows="5" cols="50" placeholder="Your message..." class="input_comment"></textarea>
-      <button type="button" name="button" class="input_button" >SEND <i class="fas fa-paper-plane"></i></button>
-    </form>
-  </section>
-  <section class="media">
-    <a href="https://www.instagram.com/jack_swag_19/"><i class="fab fa-instagram"></i></a>
-    <a href="https://www.facebook.com/suraj.d.nair" target="_blank"><i class="fab fa-facebook-f"></i></a>
-    <a href="https://twitter.com/GhanmiKhir" target="_blank"><i class="fab fa-twitter"></i></a>
-    <a href="https://www.linkedin.com/in/suraj-nair-b9a74311a/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-    <a href="https://plus.google.com/113225996450491145305" target="_blank"><i class="fab fa-google"></i></a>
-    <a href="https://www.quora.com/profile/Suraj-D-Nair" target="_blank"><i class="fab fa-quora"></i></a>
-  </section>
-  <footer class="copyright">
-    Copyright &copy; SURAJ NAIR
-  </footer>
+      // Optional: make No wiggle slightly to be cute
+      noBtn.animate(
+        [
+          { transform: 'translateX(0)' },
+          { transform: 'translateX(-6px)' },
+          { transform: 'translateX(6px)' },
+          { transform: 'translateX(0)' },
+        ],
+        { duration: 260, easing: 'ease-in-out' }
+      );
+    });
+
+    yesBtn.addEventListener('click', () => {
+      result.classList.remove('hidden');
+      hint.classList.add('hidden');
+      // Subtle pop effect
+      yesBtn.animate(
+        [{ transform: 'scale(1.0)' }, { transform: 'scale(1.12)' }, { transform: 'scale(1.0)' }],
+        { duration: 240, easing: 'ease-out' }
+      );
+      launchConfetti();
+    });
+
+    // --- Lightweight confetti ---
+    function launchConfetti() {
+      canvas.classList.remove('hidden');
+      const ctx = canvas.getContext('2d');
+      const dpr = window.devicePixelRatio || 1;
+
+      function resize() {
+        const rect = canvas.getBoundingClientRect();
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      const colors = ['#e91e63','#ff9ec4','#ffb703','#4dd0e1','#a7ff83','#ffd1e8'];
+      const pieces = Array.from({ length: 180 }, () => ({
+        x: Math.random() * canvas.clientWidth,
+        y: -10 - Math.random() * canvas.clientHeight * 0.5,
+        r: 4 + Math.random() * 6,
+        c: colors[Math.floor(Math.random() * colors.length)],
+        vy: 1.2 + Math.random() * 2.2,
+        vx: -1 + Math.random() * 2,
+        rot: Math.random() * Math.PI,
+        vr: -0.1 + Math.random() * 0.2
+      }));
+
+      let t = 0;
+      const maxT = 4000; // confetti lasts ~4s
+      const start = performance.now();
+
+      (function tick(now) {
+        t = now - start;
+        ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+
+        pieces.forEach(p => {
+          p.vy += 0.01; // gentle gravity
+          p.x += p.vx;
+          p.y += p.vy;
+          p.rot += p.vr;
+
+          // recycle pieces that fall off
+          if (p.y > canvas.clientHeight + 10) {
+            p.y = -10; p.x = Math.random() * canvas.clientWidth;
+            p.vy = 1.2 + Math.random() * 2.2;
+          }
+
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rot);
+          ctx.fillStyle = p.c;
+          ctx.fillRect(-p.r, -p.r/2, p.r*2, p.r);
+          ctx.restore();
+        });
+
+        if (t < maxT) {
+          requestAnimationFrame(tick);
+        } else {
+          canvas.classList.add('hidden');
+          ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+        }
+      })(start);
+    }
+  </script>
 </body>
 </html>
+``
